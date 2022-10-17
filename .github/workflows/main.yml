@@ -1,0 +1,48 @@
+name: "Integration tests"
+on:
+  - push
+  - pull_request
+
+permissions:
+  contents: write
+
+jobs:
+  integration-tests:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Setup Minikube
+      id: minikube
+      uses: ./
+    - name: Launch Minikube
+      run: eval ${{ steps.minikube.outputs.launcher }}
+    - name: Install Nginx pod
+      run: kubectl apply -f https://k8s.io/examples/application/deployment.yaml
+    - name: Wait for pods
+      uses: CodingNagger/minikube-wait-action@master
+      with:
+        namespace: default
+        all-namespaces: false
+    - name: Check pods
+      run: |
+        kubectl get pods
+
+  update-version:
+    if: github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Create version
+      run: npm version patch
+
+  release:
+    if: startsWith(github.ref, 'refs/tags/')
+    runs-on: ubuntu-latest
+    steps:
+    - name: Create Release
+      uses: softprops/action-gh-release@v1
+      with:
+        token: ${{ secrets.MINIKUB_SETUP_ACTION_TOKEN }}
+  

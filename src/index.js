@@ -1,18 +1,26 @@
 const core = require('@actions/core');
 
 try {
-    const minikubeVersion = core.getInput('minikube-version');
-    const kubernetesVersion = core.getInput('k8s-version');
+    const minikubeVersionInput = core.getInput('minikube-version');
+    const minikubePlatformInput = core.getInput('minikube-platform');
+    const kubernetesVersionInput = core.getInput('k8s-version');
+
+    const minikubeVersion = !!minikubeVersionInput ? minikubeVersionInput : '1.27.1';
+    const minikubePlatform = !!minikubePlatformInput ? minikubePlatformInput : 'amd64';
+
+    const minikubeFullVersion = minikubeVersion >= '1.7.0' ? `${minikubeVersion}-0_${minikubePlatform}` : minikubeVersion;
+
+    const kubernetesVersion = !!kubernetesVersionInput ? kubernetesVersionInput : '1.25.0';
 
     const { spawnSync } = require('child_process');
 
     console.log(`Downloading Minikube...`);
-    var lastCommandRunning = spawnSync('curl', ['-LO', `https://storage.googleapis.com/minikube/releases/latest/minikube_${minikubeVersion}.deb`]);
+    var lastCommandRunning = spawnSync('curl', ['-LO', `https://github.com/kubernetes/minikube/releases/download/${minikubeVersion}/minikube_${minikubeFullVersion}.deb`]);
     console.log( `${lastCommandRunning.stdout.toString()}` );
     console.error( `${lastCommandRunning.stderr.toString()}` );
 
     console.log(`Installing Minikube...`);
-    lastCommandRunning = spawnSync('sudo', ['dpkg', '-i', `minikube_${minikubeVersion}.deb`]);
+    lastCommandRunning = spawnSync('sudo', ['dpkg', '-i', `minikube_${minikubeFullVersion}.deb`]);
     console.log( `${lastCommandRunning.stdout.toString()}` );
     console.error( `${lastCommandRunning.stderr.toString()}` );
 

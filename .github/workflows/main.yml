@@ -1,7 +1,10 @@
 name: "Integration tests"
 on:
-  - push
-  - pull_request
+  - push:
+      branches:
+        - '**'
+      tags:
+        - 'v*.*.*'
 
 permissions:
   contents: write

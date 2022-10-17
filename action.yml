@@ -16,5 +16,5 @@ outputs:
   launcher:
     description: 'Command to execute to launch minikube'
 runs:
-  using: 'node12'
+  using: 'node16'
   main: 'src/index.js'

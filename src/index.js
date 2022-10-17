@@ -31,7 +31,7 @@ try {
     const { spawnSync } = require('child_process');
 
     console.log(`Downloading Minikube ${minikubeFullVersion}...`);
-    var lastCommandRunning = spawnSync('curl', ['-LO', `https://github.com/kubernetes/minikube/releases/download/${minikubeVersion}/minikube_${minikubeFullVersion}.deb`]);
+    var lastCommandRunning = spawnSync('curl', ['-LO', `https://github.com/kubernetes/minikube/releases/download/v${minikubeVersion}/minikube_${minikubeFullVersion}.deb`]);
     console.log(`${lastCommandRunning.stdout.toString()}`);
     console.error(`${lastCommandRunning.stderr.toString()}`);
 

@@ -11,7 +11,7 @@ inputs:
   minikube-platform:
     description: 'Minikube platform to install'
     required: false
-    default: 'arm64'
+    default: 'amd64'
   k8s-version:
     description: 'Kubernetes version to install'
     required: false

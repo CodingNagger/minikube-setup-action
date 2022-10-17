@@ -1,20 +1,15 @@
 const core = require('@actions/core');
 
 try {
-    const minikubeVersionInput = core.getInput('minikube-version');
-    const minikubePlatformInput = core.getInput('minikube-platform');
-    const kubernetesVersionInput = core.getInput('k8s-version');
-
-    const minikubeVersion = !!minikubeVersionInput ? minikubeVersionInput : '1.27.1';
-    const minikubePlatform = !!minikubePlatformInput ? minikubePlatformInput : 'amd64';
+    const minikubeVersion = core.getInput('minikube-version');
+    const minikubePlatform = core.getInput('minikube-platform');
+    const kubernetesVersion = core.getInput('k8s-version');
 
     const minikubeFullVersion = minikubeVersion >= '1.7.0' ? `${minikubeVersion}-0_${minikubePlatform}` : minikubeVersion;
 
-    const kubernetesVersion = !!kubernetesVersionInput ? kubernetesVersionInput : '1.25.0';
-
     const { spawnSync } = require('child_process');
 
-    console.log(`Downloading Minikube...`);
+    console.log(`Downloading Minikube ${minikubeFullVersion}...`);
     var lastCommandRunning = spawnSync('curl', ['-LO', `https://github.com/kubernetes/minikube/releases/download/${minikubeVersion}/minikube_${minikubeFullVersion}.deb`]);
     console.log( `${lastCommandRunning.stdout.toString()}` );
     console.error( `${lastCommandRunning.stderr.toString()}` );

@@ -1,10 +1,10 @@
 name: "Integration tests"
 on:
-  - push:
-      branches:
-        - '**'
-      tags:
-        - 'v*.*.*'
+  push:
+    branches:
+      - '**'
+    tags:
+      - 'v*.*.*'
 
 permissions:
   contents: write

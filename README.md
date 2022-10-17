@@ -14,7 +14,7 @@ This action installs a VM-free Kubernetes cluster using Minikube.
 
 ### `k8s-version`
 
-**Optional** Version of Kubernetes you wish to use with Minikube. Default `"1.25.0"`.
+**Optional** Version of Kubernetes you wish to use with Minikube. Default `"1.24.0"`.
 
 ## Outputs
 

@@ -1,0 +1,23 @@
+name: "Validate workflow"
+on: [push]
+
+jobs:
+  integration-tests:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: Setup Minikube
+      id: minikube
+      uses: CodingNagger/minikube-setup-action@GITHUB_SHA
+    - name: Launch Minikube
+      run: eval ${{ steps.minikube.outputs.launcher }}
+    - name: Install Nginx pod
+      run: kubectl apply -f https://k8s.io/examples/application/deployment.yaml
+    - name: Wait for pods
+      uses: CodingNagger/minikube-wait-action@master
+      with:
+        namespace: default
+        all-namespaces: false
+    - name: Check pods
+      run: |
+        kubectl get pods

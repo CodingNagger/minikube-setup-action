@@ -1,6 +1,6 @@
 {
   "name": "minikube-setup-action",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Installs minikube in your Github Actions workflow.",
   "main": "src/index.js",
   "scripts": {

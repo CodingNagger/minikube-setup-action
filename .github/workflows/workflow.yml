@@ -8,7 +8,7 @@ jobs:
     - uses: actions/checkout@master
     - name: Setup Minikube
       id: minikube
-      uses: CodingNagger/minikube-setup-action@GITHUB_SHA
+      uses: CodingNagger/minikube-setup-action@${GITHUB_SHA}
     - name: Launch Minikube
       run: eval ${{ steps.minikube.outputs.launcher }}
     - name: Install Nginx pod
